@@ -58,7 +58,7 @@ public class SongLibrary extends JFrame{
                askForClosing();
            }
         });
-        //JTable table = new JTable( DATA, HEADERS );
+        //table = new JTable( DATA, HEADERS );
         //table.setPreferredScrollableViewportSize(new Dimension(500, 100));
         //table.setFillsViewportHeight(true);
         //pack();
