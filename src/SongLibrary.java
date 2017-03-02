@@ -5,12 +5,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
@@ -22,6 +25,18 @@ public class SongLibrary extends JFrame{
         
         JMenuBar menubar = new JMenuBar();
         add(BorderLayout.NORTH, menubar);
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+        add(BorderLayout.EAST,panel);
+
+        JButton added = new JButton("Add");
+        JButton delete = new JButton("Delete");
+        panel.add(added);
+        panel.add(delete);
+        add(BorderLayout.EAST,panel);
+        
+        
         
         JMenu Library = new JMenu("SongLibrary");
         menubar.add(Library);
@@ -41,7 +56,7 @@ public class SongLibrary extends JFrame{
         about.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                JOptionPane.showMessageDialog(SongLibrary.this, new JLabel("<html><b>Yeah! app</b> <i>yours truly</i><html>"), "About", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(SongLibrary.this, new JLabel("<html><b>SongLibrary</b> <br/> <p>by Sam Allison and Tyre King</p><html>"), "About", JOptionPane.INFORMATION_MESSAGE);
 
             }
         });
