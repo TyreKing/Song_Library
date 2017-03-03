@@ -1,10 +1,12 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,21 +21,23 @@ import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class SongLibrary extends JFrame{
-    public SongLibrary(){
+	
+	private final String [] HEADERS = {"Song", "Artist", "Album", "Year"};
+    private Object [][] DATA;
+    
+	public SongLibrary(){
         super("SongLibrary");
         setLayout(new BorderLayout());
         
         JMenuBar menubar = new JMenuBar();
         add(BorderLayout.NORTH, menubar);
         
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-        add(BorderLayout.EAST,panel);
-
+        Box panel = Box.createVerticalBox();
         JButton added = new JButton("Add");
         JButton delete = new JButton("Delete");
         panel.add(added);
         panel.add(delete);
+        panel.add(Box.createVerticalBox());
         add(BorderLayout.EAST,panel);
         
         
@@ -44,13 +48,13 @@ public class SongLibrary extends JFrame{
         Library.addSeparator();
         JMenuItem exit = Library.add("Exit");
         
-        JMenu table = new JMenu("Table");
-        menubar.add(table);
-        JMenuItem New = table.add("New");
-        table.addSeparator();
-        JMenuItem open = table.add("Open...");
-        table.addSeparator();
-        JMenuItem saveAs = table.add("Save As...");
+        JMenu tables = new JMenu("Table");
+        menubar.add(tables);
+        JMenuItem New = tables.add("New");
+        tables.addSeparator();
+        JMenuItem open = tables.add("Open...");
+        tables.addSeparator();
+        JMenuItem saveAs = tables.add("Save As...");
         
         
         about.addActionListener(new ActionListener(){
@@ -73,9 +77,9 @@ public class SongLibrary extends JFrame{
                askForClosing();
            }
         });
-        //table = new JTable( DATA, HEADERS );
-        //table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        //table.setFillsViewportHeight(true);
+        JTable table = new JTable( DATA, HEADERS );
+        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+        table.setFillsViewportHeight(true);
         //pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
