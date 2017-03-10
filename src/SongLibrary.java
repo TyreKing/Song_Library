@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.Box;
 //import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -19,12 +21,14 @@ import javax.swing.JScrollPane;
 //import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class SongLibrary extends JFrame{
 	
 	private final String [] HEADERS = {"Song", "Artist", "Album", "Year"};
-    private Object [][] DATA = {};
+    private Object [][] DATA = new Object[][]{};
+    private Dimension tableSize;
     
 	public SongLibrary(){
         super("SongLibrary");
@@ -41,6 +45,7 @@ public class SongLibrary extends JFrame{
         panel.add(Box.createVerticalBox());
         add(BorderLayout.EAST,panel);
         
+
         
         
         JMenu Library = new JMenu("SongLibrary");
@@ -81,7 +86,7 @@ public class SongLibrary extends JFrame{
            }
         });
         
-        
+        JFileChooser chooser = new JFileChooser();
         
         JTable table = new JTable( DATA, HEADERS );
         table.setPreferredScrollableViewportSize(new Dimension(500, 100));
@@ -89,6 +94,75 @@ public class SongLibrary extends JFrame{
         JScrollPane scrollPane = new JScrollPane(table);
         add(BorderLayout.CENTER, scrollPane);
         
+        added.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		Object [][] temp = new Object[DATA.length+1][4];
+        		for(int i = 0; i <DATA.length; i++){
+        			for(int j = 0; j <4; j++){
+        				temp[i][j]= DATA[i][j];
+        			}
+        		}
+        		DATA = temp;
+        		table.setModel(new DefaultTableModel(DATA,HEADERS));
+        	}
+        });
+        
+        
+        
+        
+        // this is for the saved songs in text files
+        SwingUtilities.invokeLater( new Runnable(){
+            @Override
+           public void run(){
+                JFileChooser chooser = new JFileChooser();
+                int result = chooser.showSaveDialog(SongLibrary.this);
+                if(result== JFileChooser.APPROVE_OPTION){
+                    File file = chooser.getSelectedFile(); 
+                    //TODO save table data to file
+                }
+            }
+        });
+        // the saveAs button has a action listener
+       saveAs.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               if(e.getSource() == saveAs){
+                   int result = chooser.showSaveDialog(SongLibrary.this);
+                 if(result== JFileChooser.APPROVE_OPTION){
+                     File file = chooser.getSelectedFile();
+                     //TODO NEED FIGURE OUT HOW TO PLACE THE TEXT DOC IN THE APPLICATION
+               }
+           }
+           }
+       });
+       // the open button has a action listener
+       open.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               if(e.getSource() == open){
+                   int result = chooser.showOpenDialog(SongLibrary.this);
+                 if(result== JFileChooser.APPROVE_OPTION){
+                     File file = chooser.getSelectedFile();
+                     //TODO need to figure out how to save the file
+
+               }
+           }
+           }
+       });
+        
+//        // this is for the saved songs in text files
+//        SwingUtilities.invokeLater( new Runnable(){
+//            @Override
+//           public void run(){
+//                JFileChooser chooser = new JFileChooser();
+//                int result = chooser.showSaveDialog(SongLibrary.this);
+//                if(result== JFileChooser.APPROVE_OPTION){
+//                    File file = chooser.getSelectedFile(); 
+//                    //TODO save table data to file
+//                }
+//            }
+//        });
         
         pack();
         setLocationRelativeTo(null);
