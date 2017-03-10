@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.Box;
 //import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -83,6 +85,21 @@ public class SongLibrary extends JFrame{
         
         
         
+        // this is for the saved songs in text files
+        SwingUtilities.invokeLater( new Runnable(){
+            @Override
+           public void run(){
+                JFileChooser chooser = new JFileChooser();
+                int result = chooser.showSaveDialog(SongLibrary.this);
+                if(result== JFileChooser.APPROVE_OPTION){
+                    File file = chooser.getSelectedFile(); 
+                    //TODO save table data to file
+                }
+            }
+        });
+        
+        
+        
         JTable table = new JTable( DATA, HEADERS );
         table.setPreferredScrollableViewportSize(new Dimension(500, 100));
         table.setFillsViewportHeight(true);
@@ -114,7 +131,10 @@ public class SongLibrary extends JFrame{
             public void run(){
                 JFrame f = new SongLibrary();
                 f.setVisible(true);
+                
             }
         });
     }
+    
+    
 }
