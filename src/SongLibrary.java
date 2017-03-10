@@ -30,17 +30,22 @@ public class SongLibrary extends JFrame{
     
 	public SongLibrary(){
         super("SongLibrary");
+        
+        // create the application
         setLayout(new BorderLayout());
         
+        //creates the menu bar
         JMenuBar menubar = new JMenuBar();
         add(BorderLayout.NORTH, menubar);
         
+        //adds buttons to menu bar 
         Box panel = Box.createVerticalBox();
         JButton added = new JButton("Add");
         JButton delete = new JButton("Delete");
         panel.add(added);
         panel.add(delete);
         panel.add(Box.createVerticalBox());
+        //adds a border to the right side
         add(BorderLayout.EAST,panel);
         
         
@@ -61,6 +66,7 @@ public class SongLibrary extends JFrame{
         tables.addSeparator();
         JMenuItem saveAs = tables.add("Save As...");
         
+        JFileChooser chooser = new JFileChooser();
         
         about.addActionListener(new ActionListener(){
             @Override
@@ -82,21 +88,46 @@ public class SongLibrary extends JFrame{
                askForClosing();
            }
         });
+        // the saveAs button has a action listener
+       saveAs.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               if(e.getSource() == saveAs){
+                   int result = chooser.showSaveDialog(SongLibrary.this);
+                 if(result== JFileChooser.APPROVE_OPTION){
+                     File file = chooser.getSelectedFile();
+                     //TODO NEED FIGURE OUT HOW TO PLACE THE TEXT DOC IN THE APPLICATION
+               }
+           }
+           }
+       });
+       // the open button has a action listener
+       open.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               if(e.getSource() == open){
+                   int result = chooser.showOpenDialog(SongLibrary.this);
+                 if(result== JFileChooser.APPROVE_OPTION){
+                     File file = chooser.getSelectedFile();
+                     //TODO need to figure out how to save the file
+
+               }
+           }
+           }
+       });
         
-        
-        
-        // this is for the saved songs in text files
-        SwingUtilities.invokeLater( new Runnable(){
-            @Override
-           public void run(){
-                JFileChooser chooser = new JFileChooser();
-                int result = chooser.showSaveDialog(SongLibrary.this);
-                if(result== JFileChooser.APPROVE_OPTION){
-                    File file = chooser.getSelectedFile(); 
-                    //TODO save table data to file
-                }
-            }
-        });
+//        // this is for the saved songs in text files
+//        SwingUtilities.invokeLater( new Runnable(){
+//            @Override
+//           public void run(){
+//                JFileChooser chooser = new JFileChooser();
+//                int result = chooser.showSaveDialog(SongLibrary.this);
+//                if(result== JFileChooser.APPROVE_OPTION){
+//                    File file = chooser.getSelectedFile(); 
+//                    //TODO save table data to file
+//                }
+//            }
+//        });
         
         
         
