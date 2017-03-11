@@ -5,15 +5,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 import javax.swing.Box;
-// import javax.swing.BoxLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -23,7 +30,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-// import javax.swing.JPanel;
+
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -32,12 +39,15 @@ import javax.swing.table.DefaultTableModel;
 public class SongLibrary extends JFrame {
 
     private final String[] HEADERS = { "Song", "Artist", "Album", "Year" };
-    // may not need this
-    //private Object[][] DATA = {};
-     private ArrayList<String []> DATA = new ArrayList<String []>();
-
+    
+     private Object[][] DATA = {};
+     private BufferedReader reader;
+     private DefaultTableModel tablemodel;
+     private static String path= "SongLibrary";
+     private Object [] newRow = new Object [4];
+  
     public SongLibrary() {
-        super("SongLibrary");
+        super(path);
 
         // create the application
         setLayout(new BorderLayout());
@@ -77,13 +87,16 @@ public class SongLibrary extends JFrame {
         // table.setFillsViewportHeight(true);
         // JScrollPane scrollPane = new JScrollPane(table);
         // add(BorderLayout.CENTER, scrollPane);
-        DefaultTableModel tablemodel = new DefaultTableModel(HEADERS, 0);
-        JTable table = new JTable(tablemodel);
+        //DefaultTableModel tablemodel = new DefaultTableModel(HEADERS, 0);
+        JTable table = new JTable(DATA, HEADERS);
         table.setPreferredScrollableViewportSize(new Dimension(500, 100));
         table.setFillsViewportHeight(true);
         JScrollPane scrollPane = new JScrollPane(table);
         add(BorderLayout.CENTER, scrollPane);
-
+        tablemodel = new DefaultTableModel(0,4);
+        tablemodel.setColumnIdentifiers(HEADERS);
+        table.setModel(tablemodel);
+        
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -92,6 +105,16 @@ public class SongLibrary extends JFrame {
                                 "<html><b>SongLibrary</b> <br/> <p>by Sam Allison and Tyre King</p><html>"),
                         "About", JOptionPane.INFORMATION_MESSAGE);
 
+            }
+        });
+        
+        New.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               int result =  JOptionPane.showConfirmDialog(SongLibrary.this, "Clear all table data?");
+                if(result == JOptionPane.YES_OPTION){
+                    tablemodel.setRowCount(0);
+                }
             }
         });
 
@@ -107,6 +130,25 @@ public class SongLibrary extends JFrame {
                 askForClosing();
             }
         });
+       
+        added.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tablemodel.addRow(newRow);
+            }
+        });
+        
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow()!= -1){
+                    tablemodel.removeRow(table.getSelectedRow());
+                }
+            }
+        });
+        
+        
+        
         // the saveAs button has a action listener
         saveAs.addActionListener(new ActionListener() {
             @Override
@@ -115,8 +157,9 @@ public class SongLibrary extends JFrame {
                     int result = chooser.showSaveDialog(SongLibrary.this);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         File file = chooser.getSelectedFile();
-                        // TODO NEED FIGURE OUT HOW TO PLACE THE TEXT DOC IN THE
-                        // APPLICATION
+                        
+                    
+                    
                     }
                 }
             }
@@ -125,53 +168,34 @@ public class SongLibrary extends JFrame {
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 if (e.getSource() == open) {
                     int result = chooser.showOpenDialog(SongLibrary.this);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         File file = chooser.getSelectedFile();
+                        String line;
+                        
                         try {
-                            FileReader readme = new FileReader(file.getPath());
-                            Scanner in = new Scanner(readme);
-                            String nl;
-                            while ((nl = in.nextLine()) != null) {
-
-                                DATA.add(nl.split(","));
-
+                            
+                            reader = new BufferedReader(new FileReader(file));
+                            while((line = reader.readLine())!=null){
+                                tablemodel.addRow(line.split(","));
                             }
-                        }
-                        catch (Exception e1) {
-                            if(e.getClass().equals(NoSuchElementException.class)){
-                                System.err.println("end of file");
-                            }else{
-                                e1.printStackTrace();
-                            }
+                            reader.close();
+                            
                             
                         }
+                        catch (IOException e1) {
+                            JOptionPane.showMessageDialog(null, "Buffered reader issue");
+                        }
+                      
+                       
 
                     }
                 }
             }
         });
-
-        // // this is for the saved songs in text files
-        // SwingUtilities.invokeLater( new Runnable(){
-        // @Override
-        // public void run(){
-        // JFileChooser chooser = new JFileChooser();
-        // int result = chooser.showSaveDialog(SongLibrary.this);
-        // if(result== JFileChooser.APPROVE_OPTION){
-        // File file = chooser.getSelectedFile();
-        // //TODO save table data to file
-        // }
-        // }
-        // });
-
-        // JTable table = new JTable( DATA, HEADERS );
-        // table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        // table.setFillsViewportHeight(true);
-        // JScrollPane scrollPane = new JScrollPane(table);
-        // add(BorderLayout.CENTER, scrollPane);
-
+     
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
