@@ -174,7 +174,7 @@ public class SongLibrary extends JFrame {
                     if (result == JFileChooser.APPROVE_OPTION) {
                         File file = chooser.getSelectedFile();
                         String line;
-                        
+                        tablemodel.setRowCount(0);
                         try {
                             
                             reader = new BufferedReader(new FileReader(file));
