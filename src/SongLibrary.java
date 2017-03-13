@@ -66,6 +66,10 @@ public class SongLibrary extends JFrame {
         panel.add(Box.createVerticalBox());
         //adds a border to the right side
         add(BorderLayout.EAST,panel);
+        
+
+        
+        
 
         JMenu Library = new JMenu("SongLibrary");
         menubar.add(Library);
@@ -91,6 +95,13 @@ public class SongLibrary extends JFrame {
         tablemodel = new DefaultTableModel(0,4);
         tablemodel.setColumnIdentifiers(HEADERS);
         table.setModel(tablemodel);
+        
+        
+        
+    	if(table.getRowCount() == 0){
+    		delete.setEnabled(false);
+    	}
+        
         
         about.addActionListener(new ActionListener() {
             @Override
@@ -130,45 +141,21 @@ public class SongLibrary extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tablemodel.addRow(newRow);
+                delete.setEnabled(true);
             }
         });
-
-        // the saveAs button has a action listener
-       saveAs.addActionListener(new ActionListener(){
-           @Override
-           public void actionPerformed(ActionEvent e){
-               if(e.getSource() == saveAs){
-                   int result = chooser.showSaveDialog(SongLibrary.this);
-                 if(result== JFileChooser.APPROVE_OPTION){
-                     File file = chooser.getSelectedFile();
-                     //TODO NEED FIGURE OUT HOW TO PLACE THE TEXT DOC IN THE APPLICATION
-               }
-           }
-           }
-       });
-       // the open button has a action listener
-       open.addActionListener(new ActionListener(){
-           @Override
-           public void actionPerformed(ActionEvent e){
-               if(e.getSource() == open){
-                   int result = chooser.showOpenDialog(SongLibrary.this);
-                 if(result== JFileChooser.APPROVE_OPTION){
-                     File file = chooser.getSelectedFile();
-                     //TODO need to figure out how to save the file
-
-               }
-           }
-           }
-       });
-        
         
         JFileChooser chooser1 = new JFileChooser();
         
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if(table.getSelectedRow()!= -1){
                     tablemodel.removeRow(table.getSelectedRow());
+                }
+                if(table.getRowCount() == 0){
+                	delete.setEnabled(false);
                 }
             }
         });      
@@ -210,6 +197,7 @@ public class SongLibrary extends JFrame {
                         File file = chooser.getSelectedFile();
                         String line;
                         tablemodel.setRowCount(0);
+                        path = file.getAbsolutePath();
                         try {
                             
                             reader = new BufferedReader(new FileReader(file));
