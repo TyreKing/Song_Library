@@ -132,7 +132,7 @@ public class SongLibrary extends JFrame{
 //            }
 //        });
         
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser1 = new JFileChooser();
         
         JTable table = new JTable( DATA, HEADERS );
         table.setPreferredScrollableViewportSize(new Dimension(500, 100));
@@ -150,6 +150,24 @@ public class SongLibrary extends JFrame{
         			}
         		}
         		DATA = temp;
+        		table.setModel(new DefaultTableModel(DATA,HEADERS));
+        	}
+        });
+        delete.addActionListener(new ActionListener(){
+        	@Override
+        	public void actionPerformed(ActionEvent e){
+        		int rowSelect = table.getSelectedRow();
+        		Object [][] temp = new Object[DATA.length-1][4];
+        		for(int i = rowSelect; i < DATA.length; i++){
+        			for(int j = 0; j < 4; j++){
+        				if(i == rowSelect){
+        					table.remove(i);
+        				}
+        				else
+        					temp[i-1][j]= DATA[i][j];
+        			}
+        		}
+        		
         		table.setModel(new DefaultTableModel(DATA,HEADERS));
         	}
         });
@@ -174,9 +192,9 @@ public class SongLibrary extends JFrame{
            @Override
            public void actionPerformed(ActionEvent e){
                if(e.getSource() == saveAs){
-                   int result = chooser.showSaveDialog(SongLibrary.this);
+                   int result = chooser1.showSaveDialog(SongLibrary.this);
                  if(result== JFileChooser.APPROVE_OPTION){
-                     File file = chooser.getSelectedFile();
+                     File file = chooser1.getSelectedFile();
                      //TODO NEED FIGURE OUT HOW TO PLACE THE TEXT DOC IN THE APPLICATION
                }
            }
@@ -187,9 +205,9 @@ public class SongLibrary extends JFrame{
            @Override
            public void actionPerformed(ActionEvent e){
                if(e.getSource() == open){
-                   int result = chooser.showOpenDialog(SongLibrary.this);
+                   int result = chooser1.showOpenDialog(SongLibrary.this);
                  if(result== JFileChooser.APPROVE_OPTION){
-                     File file = chooser.getSelectedFile();
+                     File file = chooser1.getSelectedFile();
                      //TODO need to figure out how to save the file
 
                }
