@@ -221,7 +221,7 @@ public class SongLibrary extends JFrame {
      
         pack();
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); 
     }
 
     protected void askForClosing() {
