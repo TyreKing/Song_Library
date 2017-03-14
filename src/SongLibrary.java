@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.TextField;
 // import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -44,13 +46,15 @@ public class SongLibrary extends JFrame {
      private Object[][] DATA = {};
      private BufferedReader reader;
      private DefaultTableModel tablemodel;
-     private static String path= "SongLibrary";
+     
       
      private Object [] newRow = new Object [4];
   
     public SongLibrary() {
-        super(path);
-      
+        setTitle("SongLibrary");
+        
+
+     
         // create the application
         setLayout(new BorderLayout());
 
@@ -119,6 +123,8 @@ public class SongLibrary extends JFrame {
                 if(result == JOptionPane.YES_OPTION){
                     tablemodel.setRowCount(0);
                 }
+                setTitle("SongLibrary");
+                delete.setEnabled(false);
             }
         });
 
@@ -152,12 +158,13 @@ public class SongLibrary extends JFrame {
                 if(table.getSelectedRow()!= -1){
                     tablemodel.removeRow(table.getSelectedRow());
                 }
+                if(table.getSelectedRow()== -1 ){
+                    JOptionPane.showMessageDialog(SongLibrary.this, "No row selected", "Message", JOptionPane.OK_OPTION);
+                }
                 if(table.getRowCount() == 0){
                 	delete.setEnabled(false);
                 }
-                if(table.getSelectedRow()== -1){
-                    JOptionPane.showMessageDialog(SongLibrary.this, "No row selected", "Message", JOptionPane.OK_OPTION);
-                }
+                
             }
         });      
         
@@ -188,6 +195,7 @@ public class SongLibrary extends JFrame {
                            
                         }
                         wrote.close();
+                        setTitle(file.getAbsolutePath());
                     }
                     catch (IOException e) {
                         JOptionPane.showMessageDialog(null, "Buffered writer issue");
@@ -209,7 +217,7 @@ public class SongLibrary extends JFrame {
                         File file = chooser.getSelectedFile();
                         String line;
                         tablemodel.setRowCount(0);
-                         
+                         setTitle( file.getAbsolutePath());
                         
                         try {
                             
@@ -244,6 +252,7 @@ public class SongLibrary extends JFrame {
             dispose();
         }
     }
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
