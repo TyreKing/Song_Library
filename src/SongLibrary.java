@@ -45,11 +45,12 @@ public class SongLibrary extends JFrame {
      private BufferedReader reader;
      private DefaultTableModel tablemodel;
      private static String path= "SongLibrary";
+      
      private Object [] newRow = new Object [4];
   
     public SongLibrary() {
         super(path);
-
+      
         // create the application
         setLayout(new BorderLayout());
 
@@ -157,6 +158,9 @@ public class SongLibrary extends JFrame {
                 if(table.getRowCount() == 0){
                 	delete.setEnabled(false);
                 }
+                if(table.getSelectedRow()== -1){
+                    JOptionPane.showMessageDialog(SongLibrary.this, "No row selected", "Message", JOptionPane.OK_OPTION);
+                }
             }
         });      
         
@@ -182,7 +186,7 @@ public class SongLibrary extends JFrame {
                                    line+="\n";
                                }
                                wrote.write(line);
-                               System.out.println(line);
+                               //System.out.println(line);
                            }
                            
                         }
@@ -208,7 +212,8 @@ public class SongLibrary extends JFrame {
                         File file = chooser.getSelectedFile();
                         String line;
                         tablemodel.setRowCount(0);
-                        path = file.getAbsolutePath();
+                         
+                        
                         try {
                             
                             reader = new BufferedReader(new FileReader(file));
