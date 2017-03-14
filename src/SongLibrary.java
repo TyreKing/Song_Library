@@ -160,23 +160,12 @@ public class SongLibrary extends JFrame {
             }
         });      
         
-        // this is for the saved songs in text files
-        SwingUtilities.invokeLater( new Runnable(){
-            @Override
-           public void run(){
-                JFileChooser chooser = new JFileChooser();
-                int result = chooser.showSaveDialog(SongLibrary.this);
-                if(result== JFileChooser.APPROVE_OPTION){
-                    File file = chooser.getSelectedFile(); 
-                    //TODO save table data to file
-                }
-            }
-        });
+       
         // the saveAs button has a action listener
        saveAs.addActionListener(new ActionListener(){
            @Override
-           public void actionPerformed(ActionEvent e){
-               if(e.getSource() == saveAs){
+           public void actionPerformed(ActionEvent d){
+               if(d.getSource() == saveAs){
                    int result = chooser1.showSaveDialog(SongLibrary.this);
                  if(result== JFileChooser.APPROVE_OPTION){
                      File file = chooser1.getSelectedFile();
@@ -211,7 +200,7 @@ public class SongLibrary extends JFrame {
                         catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Buffered reader issue");
                         }
-                      
+                        delete.setEnabled(true);
                        
 
                     }
