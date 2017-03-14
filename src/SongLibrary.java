@@ -169,7 +169,29 @@ public class SongLibrary extends JFrame {
                    int result = chooser1.showSaveDialog(SongLibrary.this);
                  if(result== JFileChooser.APPROVE_OPTION){
                      File file = chooser1.getSelectedFile();
-                     //TODO NEED FIGURE OUT HOW TO PLACE THE TEXT DOC IN THE APPLICATION
+                     String line;
+                     int rowcount = tablemodel.getRowCount();
+                     try {
+                        BufferedWriter wrote = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
+                        for(int row = 0; row < rowcount; row++){
+                           for(int col = 0; col < tablemodel.getColumnCount() ;col++){
+                               line = (String) tablemodel.getValueAt(row, col);
+                               if(col!= 3){
+                                   line += ",";
+                               }else{
+                                   line+="\n";
+                               }
+                               wrote.write(line);
+                               System.out.println(line);
+                           }
+                           
+                        }
+                        wrote.close();
+                    }
+                    catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, "Buffered writer issue");
+                        e.printStackTrace();
+                    }
                }
            }
            }
