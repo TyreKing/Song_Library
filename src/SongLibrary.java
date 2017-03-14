@@ -8,16 +8,16 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.util.Vector;
+//import java.util.ArrayList;
+//import java.util.NoSuchElementException;
+//import java.util.Scanner;
+//import java.util.StringTokenizer;
+//import java.util.Vector;
 
 import javax.swing.Box;
 
@@ -45,11 +45,12 @@ public class SongLibrary extends JFrame {
      private BufferedReader reader;
      private DefaultTableModel tablemodel;
      private static String path= "SongLibrary";
+      
      private Object [] newRow = new Object [4];
   
     public SongLibrary() {
         super(path);
-
+      
         // create the application
         setLayout(new BorderLayout());
 
@@ -154,30 +155,44 @@ public class SongLibrary extends JFrame {
                 if(table.getRowCount() == 0){
                 	delete.setEnabled(false);
                 }
+                if(table.getSelectedRow()== -1){
+                    JOptionPane.showMessageDialog(SongLibrary.this, "No row selected", "Message", JOptionPane.OK_OPTION);
+                }
             }
         });      
         
-        // this is for the saved songs in text files
-        SwingUtilities.invokeLater( new Runnable(){
-            @Override
-           public void run(){
-                JFileChooser chooser = new JFileChooser();
-                int result = chooser.showSaveDialog(SongLibrary.this);
-                if(result== JFileChooser.APPROVE_OPTION){
-                    File file = chooser.getSelectedFile(); 
-                    //TODO save table data to file
-                }
-            }
-        });
+       
         // the saveAs button has a action listener
        saveAs.addActionListener(new ActionListener(){
            @Override
-           public void actionPerformed(ActionEvent e){
-               if(e.getSource() == saveAs){
+           public void actionPerformed(ActionEvent d){
+               if(d.getSource() == saveAs){
                    int result = chooser1.showSaveDialog(SongLibrary.this);
                  if(result== JFileChooser.APPROVE_OPTION){
                      File file = chooser1.getSelectedFile();
-                     //TODO NEED FIGURE OUT HOW TO PLACE THE TEXT DOC IN THE APPLICATION
+                     String line;
+                     int rowcount = tablemodel.getRowCount();
+                     try {
+                        BufferedWriter wrote = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
+                        for(int row = 0; row < rowcount; row++){
+                           for(int col = 0; col < tablemodel.getColumnCount() ;col++){
+                               line = (String) tablemodel.getValueAt(row, col);
+                               if(col!= 3){
+                                   line += ",";
+                               }else{
+                                   line+="\n";
+                               }
+                               wrote.write(line);
+                               //System.out.println(line);
+                           }
+                           
+                        }
+                        wrote.close();
+                    }
+                    catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, "Buffered writer issue");
+                        e.printStackTrace();
+                    }
                }
            }
            }
@@ -194,7 +209,8 @@ public class SongLibrary extends JFrame {
                         File file = chooser.getSelectedFile();
                         String line;
                         tablemodel.setRowCount(0);
-                        path = file.getAbsolutePath();
+                         
+                        
                         try {
                             
                             reader = new BufferedReader(new FileReader(file));
@@ -208,7 +224,7 @@ public class SongLibrary extends JFrame {
                         catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Buffered reader issue");
                         }
-                      
+                        delete.setEnabled(true);
                        
 
                     }
@@ -218,7 +234,7 @@ public class SongLibrary extends JFrame {
      
         pack();
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); 
     }
 
     protected void askForClosing() {
