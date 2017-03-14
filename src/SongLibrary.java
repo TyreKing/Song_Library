@@ -95,14 +95,11 @@ public class SongLibrary extends JFrame {
         tablemodel = new DefaultTableModel(0,4);
         tablemodel.setColumnIdentifiers(HEADERS);
         table.setModel(tablemodel);
-        
-        
-        
+
     	if(table.getRowCount() == 0){
     		delete.setEnabled(false);
     	}
-        
-        
+
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
