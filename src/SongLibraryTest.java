@@ -1,9 +1,13 @@
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JTextField;
 
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import edu.cnu.cs.gooey.Gooey;
 import edu.cnu.cs.gooey.GooeyDialog;
@@ -19,7 +23,6 @@ public void startProgram(){
 		}
 		@Override
 		public void test(JFrame frame){
-			//dont know why this does not like assertEquals
 			assertEquals("unexpected title","SongLibrary", frame.getTitle());
 			
 			JMenuBar main = Gooey.getMenuBar(frame);
@@ -29,10 +32,20 @@ public void startProgram(){
 			JMenuItem exit = Gooey.getMenu(library, "Exit");
 			JMenuItem newTable = Gooey.getMenu(table, "New");
 			JMenuItem open = Gooey.getMenu(table, "Open...");
-			JMenuItem save = Gooey.getMenu(library, "Save as...");
+			JMenuItem save = Gooey.getMenu(table, "Save as...");
 			
-
-			
+			Gooey.capture(new GooeyDialog(){
+				@Override
+				public void invoke(){
+					about.doClick();
+				}
+				@Override
+				public void test(JDialog dialog){
+					JTextField input = Gooey.getComponent(dialog, JTextField.class);
+					input.setText("SongLibrary"  + "by Sam Allison and Tyre King");
+					JButton ok = Gooey.getButton(dialog, "Ok");
+				}
+			});
 		}
 	});
 }

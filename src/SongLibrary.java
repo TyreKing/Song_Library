@@ -1,6 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.TextField;
+//import java.awt.TextField;
 // import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import javax.swing.JTable;
-import javax.swing.JTextField;
+//import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -158,7 +158,7 @@ public class SongLibrary extends JFrame {
                 if(table.getSelectedRow()!= -1){
                     tablemodel.removeRow(table.getSelectedRow());
                 }
-                if(table.getSelectedRow()== -1 ){
+                else if(table.getSelectedRow()== -1 ){
                     JOptionPane.showMessageDialog(SongLibrary.this, "No row selected", "Message", JOptionPane.OK_OPTION);
                 }
                 if(table.getRowCount() == 0){
