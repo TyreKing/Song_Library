@@ -35,7 +35,105 @@ public void startProgram(){
 			JMenuItem save = Gooey.getMenu(table, "Save As...");
 			
 
+            
+           // Gooey.getLabel(frame, "Gwen Stefani");
+
 		}
 	});
 }
+
+	@Test
+	public void closeProgram(){
+		Gooey.capture(new GooeyFrame(){
+			@Override
+			public void invoke(){
+				SongLibrary.main(new String[] { } );
+			}
+			@Override
+			public void test(JFrame frame){
+				JMenuBar menubar = Gooey.getMenuBar(frame);
+				JMenu library = Gooey.getMenu(menubar, "SongLibrary");
+				JMenuItem exit = Gooey.getMenu(library, "Exit");
+				
+				assertTrue("JFrame should be displayed",frame.isShowing());
+				Gooey.capture(new GooeyDialog(){
+					@Override
+					public void invoke(){
+						exit.doClick();
+					}
+					@Override
+					public void test(JDialog dialog){
+					Gooey.getLabel(dialog, "Do you want to exit?");
+					JButton yes = Gooey.getButton(dialog, "Yes");
+					yes.doClick();
+					assertFalse("JDialog should be hidden", dialog.isShowing());
+					}
+				});
+
+			}
+		});
+	}
+	
+	@Test
+	public void tryCloseProgram(){
+		Gooey.capture(new GooeyFrame(){
+			@Override
+			public void invoke(){
+				SongLibrary.main(new String[] { } );
+			}
+			@Override
+			public void test(JFrame frame){
+				JMenuBar menubar = Gooey.getMenuBar(frame);
+				JMenu library = Gooey.getMenu(menubar, "SongLibrary");
+				JMenuItem exit = Gooey.getMenu(library, "Exit");
+				
+				assertTrue("JFrame should be displayed",frame.isShowing());
+				Gooey.capture(new GooeyDialog(){
+					@Override
+					public void invoke(){
+						exit.doClick();
+					}
+					@Override
+					public void test(JDialog dialog){
+					Gooey.getLabel(dialog, "Do you want to exit?");
+					JButton no = Gooey.getButton(dialog, "No");
+					no.doClick();
+					assertFalse("JDialog should be hidden", dialog.isShowing());
+					assertTrue("Jframe should be showing", frame.isShowing());
+					}
+				});
+
+			}
+		});
+	}
+	@Test
+	public void testAbout(){
+		Gooey.capture(new GooeyFrame(){
+			@Override
+			public void invoke(){
+				SongLibrary.main(new String[] { } );
+			}
+			@Override
+			public void test(JFrame frame){
+				JMenuBar menubar = Gooey.getMenuBar(frame);
+				JMenu library = Gooey.getMenu(menubar, "SongLibrary");
+				JMenuItem about = Gooey.getMenu(library, "About...");
+				
+				Gooey.capture(new GooeyDialog(){
+					@Override
+					public void invoke(){
+						about.doClick();
+					}
+					@Override
+					public void test(JDialog dialog){
+						String name = "SongLibrary" + System.lineSeparator() + "by Sam Allison and Tyre King";
+						Gooey.getLabel(dialog, name);
+						JButton ok = Gooey.getButton(dialog, "OK");
+						ok.doClick();
+					}
+				});
+				
+			}
+		});
+	}
 }
