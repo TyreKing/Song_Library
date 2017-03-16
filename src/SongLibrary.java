@@ -46,7 +46,6 @@ public class SongLibrary extends JFrame {
      private Object[][] DATA = {};
      private BufferedReader reader;
      private DefaultTableModel tablemodel;
-     
       
      private Object [] newRow = new Object [4];
   
@@ -60,6 +59,7 @@ public class SongLibrary extends JFrame {
 
         // creates the menu bar
         JMenuBar menubar = new JMenuBar();
+        setJMenuBar(menubar);
         add(BorderLayout.NORTH, menubar);
 
         // adds buttons to menu bar
@@ -71,9 +71,6 @@ public class SongLibrary extends JFrame {
         panel.add(Box.createVerticalBox());
         //adds a border to the right side
         add(BorderLayout.EAST,panel);
-        
-
-        
         
 
         JMenu Library = new JMenu("SongLibrary");
@@ -89,7 +86,9 @@ public class SongLibrary extends JFrame {
         JMenuItem open = tables.add("Open...");
         tables.addSeparator();
         JMenuItem saveAs = tables.add("Save As...");
-
+        
+        
+        
         JFileChooser chooser = new JFileChooser();
 
         JTable table = new JTable(DATA, HEADERS);
