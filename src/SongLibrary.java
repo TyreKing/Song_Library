@@ -194,7 +194,7 @@ public class SongLibrary extends JFrame {
                            
                         }
                         wrote.close();
-                        setTitle(file.getAbsolutePath());
+                        setTitle("SongLibrary"+file.getAbsolutePath());
                     }
                     catch (IOException e) {
                         JOptionPane.showMessageDialog(null, "Buffered writer issue");
@@ -209,14 +209,14 @@ public class SongLibrary extends JFrame {
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                //delete.setEnabled(false);
                 if (e.getSource() == open) {
                     int result = chooser.showOpenDialog(SongLibrary.this);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         File file = chooser.getSelectedFile();
                         String line;
                         tablemodel.setRowCount(0);
-                         setTitle( file.getAbsolutePath());
+                         setTitle("SongLibrary ["+ file.getAbsolutePath()+"]");
                         
                         try {
                             
@@ -231,6 +231,10 @@ public class SongLibrary extends JFrame {
                         catch (IOException e1) {
                             JOptionPane.showMessageDialog(null, "Buffered reader issue");
                         }
+                       	if(table.getRowCount() == 0){
+                    		delete.setEnabled(false);
+                    	}
+                       	else
                         delete.setEnabled(true);
                        
 
