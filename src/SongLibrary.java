@@ -164,7 +164,7 @@ public class SongLibrary extends JFrame {
                 	delete.setEnabled(false);
                 }
                 
-            }
+            } 
         });      
         
        
@@ -198,7 +198,7 @@ public class SongLibrary extends JFrame {
                     }
                     catch (IOException e) {
                         JOptionPane.showMessageDialog(null, "Buffered writer issue");
-                        e.printStackTrace();
+                        e.printStackTrace(); 
                     }
                }
            }
@@ -220,7 +220,7 @@ public class SongLibrary extends JFrame {
                         
                         try {
                             
-                            reader = new BufferedReader(new FileReader(file));
+                            reader = new BufferedReader(new FileReader(file)); 
                             while((line = reader.readLine())!=null){
                                 tablemodel.addRow(line.split(","));
                             }
@@ -228,8 +228,8 @@ public class SongLibrary extends JFrame {
                             
                             
                         }
-                        catch (IOException e1) {
-                            JOptionPane.showMessageDialog(null, "Buffered reader issue");
+                        catch (Exception e1) {
+                            
                         }
                        	if(table.getRowCount() == 0){
                     		delete.setEnabled(false);
