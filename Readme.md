@@ -1,7 +1,7 @@
 # Song_Library
 This application allows input of song titles, artist's names, and the year the song was produced. The program uses Java's JFrame.
 
-![alt text](https://raw.githubusercontent.com/TyreKing/Song_Library/master/songlib.png)
+![alt text](https://raw.githubusercontent.com/TyreKing/Song_Library/master/images/songlib.png)
 <div>
   <p> If the <b>SongLibrary</b> tab is selected, it will show the options <b>About</b>(which shows the author) and <b>Exit</b>(which promts the user with a window asking if they would like to quit).</p>
   </div>
