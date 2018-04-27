@@ -109,7 +109,7 @@ public class SongLibrary extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(SongLibrary.this,
                         new JLabel(
-                                "<html><b>SongLibrary</b> <br/> <p>by Sam Allison and Tyre King</p><html>"),
+                                "<html><b>SongLibrary</b> <br/> <p>by: Tyre King</p><html>"),
                         "About", JOptionPane.INFORMATION_MESSAGE);
 
             }
@@ -209,7 +209,7 @@ public class SongLibrary extends JFrame {
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //delete.setEnabled(false);
+               
                 if (e.getSource() == open) {
                     int result = chooser.showOpenDialog(SongLibrary.this);
                     if (result == JFileChooser.APPROVE_OPTION) {

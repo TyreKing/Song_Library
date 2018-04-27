@@ -156,7 +156,7 @@ public class SongLibraryTest {
 
                     @Override
                     public void test(JDialog dialog) {
-                        String name = "<html><b>SongLibrary</b> <br/> <p>by Sam Allison and Tyre King</p><html>";
+                        String name = "<html><b>SongLibrary</b> <br/> <p>Tyre King</p><html>";
                         Gooey.getLabel(dialog, name);
                         JButton ok = Gooey.getButton(dialog, "OK");
                         ok.doClick();
