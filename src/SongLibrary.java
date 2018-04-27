@@ -109,7 +109,7 @@ public class SongLibrary extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(SongLibrary.this,
                         new JLabel(
-                                "<html><b>SongLibrary</b> <br/> <p>by: Tyre King</p><html>"),
+                                "<html><b>SongLibrary</b> <br/> <p>by: Tyre King and Sam Allison</p><html>"),
                         "About", JOptionPane.INFORMATION_MESSAGE);
 
             }
